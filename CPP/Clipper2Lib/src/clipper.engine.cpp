@@ -29,10 +29,20 @@
 
 namespace Clipper2Lib {
 
+  enum VertexFlags operator &(enum VertexFlags a, enum VertexFlags b)
+  {
+    return (enum VertexFlags)(uint32_t(a) & uint32_t(b));
+  }
+
+  enum VertexFlags operator |(enum VertexFlags a, enum VertexFlags b)
+  {
+    return (enum VertexFlags)(uint32_t(a) | uint32_t(b));
+  }
+
   static const Rect64 invalid_rect = Rect64(false);
 
-  // Every closed path (ie polygon) is made up of a series of vertices forming edge 
-  // 'bounds' that alternate between ascending bounds (containing edges going up 
+  // Every closed path (ie polygon) is made up of a series of vertices forming edge
+  // 'bounds' that alternate between ascending bounds (containing edges going up
   // relative to the Y-axis) and descending bounds. 'Local Minima' refers to
   // vertices where ascending and descending bounds join at the bottom, and
   // 'Local Maxima' are where ascending and descending bounds join at the top.

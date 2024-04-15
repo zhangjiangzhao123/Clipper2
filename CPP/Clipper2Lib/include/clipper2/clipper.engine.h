@@ -41,15 +41,8 @@ namespace Clipper2Lib {
 		None = 0, OpenStart = 1, OpenEnd = 2, LocalMax = 4, LocalMin = 8
 	};
 
-	constexpr enum VertexFlags operator &(enum VertexFlags a, enum VertexFlags b)
-	{
-		return (enum VertexFlags)(uint32_t(a) & uint32_t(b));
-	}
-
-	constexpr enum VertexFlags operator |(enum VertexFlags a, enum VertexFlags b)
-	{
-		return (enum VertexFlags)(uint32_t(a) | uint32_t(b));
-	}
+	enum VertexFlags operator &(enum VertexFlags a, enum VertexFlags b);
+	enum VertexFlags operator |(enum VertexFlags a, enum VertexFlags b);
 
 	struct Vertex {
 		Point64 pt;
@@ -364,7 +357,8 @@ namespace Clipper2Lib {
 		PolyPath64* AddChild(const Path64& path) override
 		{
 			auto p = std::make_unique<PolyPath64>(this);
-			auto* result = childs_.emplace_back(std::move(p)).get();
+			childs_.emplace_back(std::move(p));
+			auto* result = childs_.back().get();
 			result->polygon_ = path;
 			return result;
 		}
@@ -425,7 +419,8 @@ namespace Clipper2Lib {
 		{
 			int error_code = 0;
 			auto p = std::make_unique<PolyPathD>(this);
-			PolyPathD* result = childs_.emplace_back(std::move(p)).get();
+			childs_.emplace_back(std::move(p));
+			PolyPathD* result = childs_.back().get();
 			result->polygon_ = ScalePath<double, int64_t>(path, scale_, error_code);
 			return result;
 		}
@@ -433,7 +428,8 @@ namespace Clipper2Lib {
 		PolyPathD* AddChild(const PathD& path)
 		{
 			auto p = std::make_unique<PolyPathD>(this);
-			PolyPathD* result = childs_.emplace_back(std::move(p)).get();
+			childs_.emplace_back(std::move(p));
+			PolyPathD* result = childs_.back().get();
 			result->polygon_ = path;
 			return result;
 		}

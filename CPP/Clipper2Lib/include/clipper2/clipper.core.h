@@ -72,7 +72,7 @@ namespace Clipper2Lib
 
   static const double MAX_DBL = (std::numeric_limits<double>::max)();
 
-  static void DoError([[maybe_unused]] int error_code)
+  static void DoError(int error_code)
   {
 #if (defined(__cpp_exceptions) && __cpp_exceptions) || (defined(__EXCEPTIONS) && __EXCEPTIONS)
     switch (error_code)
@@ -111,7 +111,7 @@ namespace Clipper2Lib
     template <typename T2>
     inline void Init(const T2 x_ = 0, const T2 y_ = 0, const int64_t z_ = 0)
     {
-      if constexpr (std::numeric_limits<T>::is_integer &&
+      if (std::numeric_limits<T>::is_integer &&
         !std::numeric_limits<T2>::is_integer)
       {
         x = static_cast<T>(std::round(x_));
@@ -165,7 +165,7 @@ namespace Clipper2Lib
     template <typename T2>
     inline void Init(const T2 x_ = 0, const T2 y_ = 0)
     {
-      if constexpr (std::numeric_limits<T>::is_integer &&
+      if (std::numeric_limits<T>::is_integer &&
         !std::numeric_limits<T2>::is_integer)
       {
         x = static_cast<T>(std::round(x_));
@@ -365,7 +365,7 @@ namespace Clipper2Lib
   {
     Rect<T1> result;
 
-    if constexpr (std::numeric_limits<T1>::is_integer &&
+    if (std::numeric_limits<T1>::is_integer &&
       !std::numeric_limits<T2>::is_integer)
     {
       result.left = static_cast<T1>(std::round(rect.left * scale));
@@ -518,7 +518,7 @@ namespace Clipper2Lib
   {
     Paths<T1> result;
 
-    if constexpr (std::numeric_limits<T1>::is_integer)
+    if (std::numeric_limits<T1>::is_integer)
     {
       RectD r = GetBounds<double, T2>(paths);
       if ((r.left * scale_x) < min_coord ||
@@ -763,7 +763,7 @@ namespace Clipper2Lib
     T bb1maxx = CC_MAX(ln2a.x, ln2b.x);
     T bb1maxy = CC_MAX(ln2a.y, ln2b.y);
 
-    if constexpr (std::numeric_limits<T>::is_integer)
+    if (std::numeric_limits<T>::is_integer)
     {
       int64_t originx = (CC_MIN(bb0maxx, bb1maxx) + CC_MAX(bb0minx, bb1minx)) >> 1;
       int64_t originy = (CC_MIN(bb0maxy, bb1maxy) + CC_MAX(bb0miny, bb1miny)) >> 1;
@@ -872,7 +872,7 @@ namespace Clipper2Lib
         static_cast<double>(offPt.y - seg1.y) * dy) /
       (Sqr(dx) + Sqr(dy));
     if (q < 0) q = 0; else if (q > 1) q = 1;
-    if constexpr (std::numeric_limits<T>::is_integer)
+    if (std::numeric_limits<T>::is_integer)
       return Point<T>(
         seg1.x + static_cast<T>(nearbyint(q * dx)),
         seg1.y + static_cast<T>(nearbyint(q * dy)));
