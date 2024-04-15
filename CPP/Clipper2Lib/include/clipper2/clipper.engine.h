@@ -80,7 +80,6 @@ template <typename T, typename... Args>
 std::unique_ptr<T> make_unique(Args&&... args) {
   return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
 }
-}
 #endif
 
 	//OutRec: contains a path in the clipping solution. Edges in the AEL will
@@ -389,7 +388,7 @@ std::unique_ptr<T> make_unique(Args&&... args) {
 		{
 			return std::accumulate(childs_.cbegin(), childs_.cend(),
 				Clipper2Lib::Area<int64_t>(polygon_),
-				[](double a, const auto& child) {return a + child->Area(); });
+				[](double a, const std::unique_ptr<PolyPath64>& child) {return a + child->Area(); });
 		}
 
 	};
@@ -460,7 +459,7 @@ std::unique_ptr<T> make_unique(Args&&... args) {
 		{
 			return std::accumulate(childs_.begin(), childs_.end(),
 				Clipper2Lib::Area<double>(polygon_),
-				[](double a, const auto& child) {return a + child->Area(); });
+				[](double a, const std::unique_ptr<PolyPathD>& child) {return a + child->Area(); });
 		}
 	};
 

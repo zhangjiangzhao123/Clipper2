@@ -627,9 +627,9 @@ namespace Clipper2Lib {
   void AddPaths_(const Paths64& paths, PathType polytype, bool is_open,
     std::vector<Vertex*>& vertexLists, LocalMinimaList& locMinList)
   {
-    const auto total_vertex_count =
+    const size_t total_vertex_count =
       std::accumulate(paths.begin(), paths.end(), 0,
-        [](const auto& a, const Path64& path)
+        [](const size_t& a, const Path64& path)
         {return a + static_cast<unsigned>(path.size()); });
     if (total_vertex_count == 0) return;
 

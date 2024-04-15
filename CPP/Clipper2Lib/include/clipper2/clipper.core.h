@@ -495,11 +495,11 @@ namespace Clipper2Lib
     result.reserve(path.size());
 #ifdef USINGZ
     std::transform(path.begin(), path.end(), back_inserter(result),
-      [scale_x, scale_y](const auto& pt)
+      [scale_x, scale_y](const Point<T2>& pt)
       { return Point<T1>(pt.x * scale_x, pt.y * scale_y, pt.z); });
 #else
     std::transform(path.begin(), path.end(), back_inserter(result),
-      [scale_x, scale_y](const auto& pt)
+      [scale_x, scale_y](const Point<T2>& pt)
       { return Point<T1>(pt.x * scale_x, pt.y * scale_y); });
 #endif
     return result;
@@ -534,7 +534,7 @@ namespace Clipper2Lib
 
     result.reserve(paths.size());
     std::transform(paths.begin(), paths.end(), back_inserter(result),
-      [=, &error_code](const auto& path)
+      [=, &error_code](const Path<T2>& path)
       { return ScalePath<T1, T2>(path, scale_x, scale_y, error_code); });
     return result;
   }
