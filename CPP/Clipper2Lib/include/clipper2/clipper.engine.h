@@ -73,6 +73,16 @@ namespace Clipper2Lib {
 	struct OutRec;
 	typedef std::vector<OutRec*> OutRecList;
 
+#if __cplusplus >= 201402L
+#define make_unique std::make_unique
+#else
+template <typename T, typename... Args>
+std::unique_ptr<T> make_unique(Args&&... args) {
+  return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+}
+}
+#endif
+
 	//OutRec: contains a path in the clipping solution. Edges in the AEL will
 	//have OutRec pointers assigned when they form part of the clipping solution.
 	struct OutRec {
@@ -356,7 +366,7 @@ namespace Clipper2Lib {
 
 		PolyPath64* AddChild(const Path64& path) override
 		{
-			auto p = std::make_unique<PolyPath64>(this);
+			auto p = make_unique<PolyPath64>(this);
 			childs_.emplace_back(std::move(p));
 			auto* result = childs_.back().get();
 			result->polygon_ = path;
@@ -418,7 +428,7 @@ namespace Clipper2Lib {
 		PolyPathD* AddChild(const Path64& path) override
 		{
 			int error_code = 0;
-			auto p = std::make_unique<PolyPathD>(this);
+			auto p = make_unique<PolyPathD>(this);
 			childs_.emplace_back(std::move(p));
 			PolyPathD* result = childs_.back().get();
 			result->polygon_ = ScalePath<double, int64_t>(path, scale_, error_code);
@@ -427,7 +437,7 @@ namespace Clipper2Lib {
 
 		PolyPathD* AddChild(const PathD& path)
 		{
-			auto p = std::make_unique<PolyPathD>(this);
+			auto p = make_unique<PolyPathD>(this);
 			childs_.emplace_back(std::move(p));
 			PolyPathD* result = childs_.back().get();
 			result->polygon_ = path;
