@@ -18,6 +18,7 @@
 #include <functional>
 #include <numeric>
 #include <memory>
+#include <limits>
 
 #include "clipper2/clipper.core.h"
 

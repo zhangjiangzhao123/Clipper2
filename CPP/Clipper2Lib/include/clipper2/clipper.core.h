@@ -20,6 +20,7 @@
 #include <climits>
 #include <numeric>
 #include "clipper2/clipper.version.h"
+#include <limits>
 
 namespace Clipper2Lib
 {
